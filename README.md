@@ -13,10 +13,11 @@ Plateforme de gestion de données météorologiques développée avec **Next.js 
 ---
 
 ## Méthode 1 — Clonage GitHub
+Dans un terminal, à l'endroit où vous voulez cloner le dépôt sur votre machine, faites :
 
 ```bash
 # 1. Cloner le dépôt
-git clone https://github.com/<votre-repo>/meteo-mongodb.git
+git clone [https://github.com/<votre-repo>/meteo-mongodb.git](https://github.com/yayexy/mini-projet-mongo-db.git)
 
 # 2. Se placer dans le dossier
 cd meteo-mongodb
