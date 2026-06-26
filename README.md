@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌤 Plateforme météorologique — Installation
 
-## Getting Started
+Plateforme de gestion de données météorologiques développée avec **Next.js 15** et **MongoDB Atlas**.
 
-First, run the development server:
+---
+
+## Prérequis
+
+- [Node.js](https://nodejs.org/) version **18 ou supérieure**
+- Un terminal (PowerShell, Terminal, Git Bash…)
+- Le fichier **`.env.local`** fourni séparément (contient l'URI de connexion MongoDB)
+
+---
+
+## Méthode 1 — Clonage GitHub
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# 1. Cloner le dépôt
+git clone https://github.com/<votre-repo>/meteo-mongodb.git
+
+# 2. Se placer dans le dossier
+cd meteo-mongodb
+
+# 3. Installer les dépendances
+npm install
+
+# 4. Créer le fichier de configuration à la racine du projet
+#    Copier-coller le fichier .env.local fourni à cet emplacement :
+#    meteo-mongodb/.env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> **Contenu du `.env.local` :**
+> ```
+> MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/meteo?retryWrites=true&w=majority
+> ```
+> Ce fichier vous est transmis séparément (par mail ou message) — ne pas le partager publiquement.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# 5. Lancer l'application
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Ouvrir [http://localhost:3000](http://localhost:3000) dans le navigateur.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Méthode 2 — Archive ZIP (Teams)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+# 1. Télécharger le fichier .zip depuis Teams et l'extraire
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# 2. Ouvrir un terminal dans le dossier extrait
+#    (clic droit sur le dossier → "Ouvrir dans le terminal")
 
-## Deploy on Vercel
+# 3. Installer les dépendances
+npm install
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# 4. Créer le fichier .env.local à la racine du dossier extrait
+#    Copier-coller le fichier .env.local fourni à cet emplacement
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+> **Contenu du `.env.local` :**
+> ```
+> MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/meteo?retryWrites=true&w=majority
+> ```
+
+```bash
+# 5. Lancer l'application
+npm run dev
+```
+
+Ouvrir [http://localhost:3000](http://localhost:3000) dans le navigateur.
+
+---
+
+## Structure du projet
+
+```
+src/
+├── app/
+│   ├── page.tsx                    ← Dashboard principal
+│   ├── stations/
+│   │   ├── new/page.tsx            ← Créer une station
+│   │   └── [id]/edit/page.tsx      ← Modifier une station
+│   ├── releves/
+│   │   ├── [id]/new/page.tsx       ← Créer un relevé
+│   │   └── [id]/edit/page.tsx      ← Modifier un relevé
+│   └── api/
+│       ├── stations/               ← CRUD stations
+│       │   └── [id]/sync/          ← Synchronisation Open-Meteo
+│       └── releves/                ← CRUD relevés
+└── lib/
+    └── mongodb.ts                  ← Client MongoDB
+```
+
+---
+
+## Fonctionnalités
+
+- **Stations météo** — ajout, modification, suppression
+- **Relevés météo** — mesures et prévisions, avec champs spécifiques selon le type de station (enneigement, hauteur des vagues, qualité de l'air…)
+- **Filtres** — par type de relevé, période, plage de température
+- **Synchronisation** — import automatique des données météo actuelles depuis [Open-Meteo](https://open-meteo.com/) (API gratuite, sans clé)
+- **Base de données** — MongoDB Atlas (hébergé, aucune installation locale requise)
+
+---
+
+## Remarques
+
+- La base de données est hébergée sur **MongoDB Atlas** — aucune installation locale de MongoDB n'est nécessaire.
+- La synchronisation Open-Meteo nécessite que la station ait des coordonnées GPS renseignées.
+- L'application fonctionne en mode développement (`npm run dev`). Pour la production : `npm run build && npm start`.
